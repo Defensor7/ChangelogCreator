@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,12 @@ namespace ChangelogCreator
         {
             try
             {
+                if (!Directory.Exists(_selectedPath))
+                {
+                    MessageBox.Show("Необходимо выбрать существующую директорию с конфигурацией!");
+                    return;
+                }
+
                 if (string.IsNullOrEmpty(textBoxToFind.Text))
                 {
                     MessageBox.Show("Необходимо заполнить строку поиска!");
@@ -49,6 +56,14 @@ namespace ChangelogCreator
                 await Task.Run(finder.FindChanges);
                 buttonFind.Enabled = true;
                 buttonPathDialog.Enabled = true;
+                if (textBoxResult.Text.Length == 0)
+                {
+                    textBoxResult.AppendText("Ничего не найдено");
+                }
+                else
+                {
+                    textBoxResult.AppendText($"Сформировано автоматически {DateTime.Now:dd.MM.yyyy HH:mm:ss}");
+                }
             }
             catch (Exception ex)
             {
@@ -64,12 +79,25 @@ namespace ChangelogCreator
             }));
         }
 
-        private void Finder_LinesAdded(object sender, string e)
+        private void Finder_LinesAdded(object sender, (string text, Color color) e)
         {
             Invoke(new Action(() =>
             {
-                textBoxResult.Text += e;
+                textBoxResult.AppendText(e.text, e.color);
             }));
+        }
+    }
+
+    public static class RichTextBoxExtensions
+    {
+        public static void AppendText(this RichTextBox box, string text, Color color)
+        {
+            box.SelectionStart = box.TextLength;
+            box.SelectionLength = 0;
+
+            box.SelectionColor = color;
+            box.AppendText(text);
+            box.SelectionColor = box.ForeColor;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 
 namespace ChangelogCreator
@@ -11,7 +12,7 @@ namespace ChangelogCreator
 
         private readonly string _selectedPath;
         private readonly string _toFind;
-        public event EventHandler<string> LinesAdded;
+        public event EventHandler<(string Text, Color color)> LinesAdded;
         public event EventHandler<int> ProgressChanged;
 
         public Finder(string selectedPath, string toFind)
@@ -63,7 +64,7 @@ namespace ChangelogCreator
                     if (currentStart != 0)
                     {
                         var (module, type) = GetModuleTypeName(file);
-                        AddText($"Строка {counter} модуля {module} документа {type} не содержит закрывающего комментария:\r\n{line}\r\n\r\n\r\n");
+                        AddText($"ОШИБКА: Строка {counter} модуля {module} категории объекта {type} не содержит закрывающего комментария:\r\n{line}\r\n\r\n\r\n", Color.Red);
                         currentStart = 0;
                         code = string.Empty;
                         continue;
@@ -82,7 +83,7 @@ namespace ChangelogCreator
                     var (module, type) = GetModuleTypeName(file);
                     if (currentStart == 0)
                     {
-                        AddText($"Строка {counter} модуля {module} документа {type} не содержит открывающего комментария:\r\n{line}\r\n\r\n\r\n");
+                        AddText($"ОШИБКА: Строка {counter} модуля {module} категории объекта {type} не содержит открывающего комментария:\r\n{line}\r\n\r\n\r\n", Color.Red);
                         currentStart = 0;
                         //currentEnd = 0;
                         code = string.Empty;
@@ -90,7 +91,7 @@ namespace ChangelogCreator
                     }
                     //currentEnd = counter;
 
-                    AddText($"Изменен модуль {module} объекта {type}.\r\nНачало изменения - строка {currentStart}.\r\nКонец изменения - строка {counter}\r\nКод:\r\n{code}\r\n\r\n\r\n");
+                    AddText($"Изменен модуль {module} категории объекта {type}\r\nНачало изменения - строка {currentStart}\r\nКонец изменения - строка {counter}\r\nКод:\r\n{code}\r\n\r\n\r\n");
                     currentStart = 0;
                     //currentEnd = 0;
                     code = string.Empty;
@@ -105,9 +106,84 @@ namespace ChangelogCreator
         private (string Module, string Type) GetModuleTypeName(string file)
         {
             var path = new DirectoryInfo(file);
-            var moduleName = path?.Parent?.Parent?.Name;
-            var type = path?.Parent?.Parent?.Parent?.Name;
-            return (moduleName, type);
+            var name = path?.Parent?.Parent?.Name;
+            var type = GetModuleTypeTranslation(path?.Parent?.Parent?.Parent?.Name);
+            return (name, type);
+        }
+
+        private string GetModuleTypeTranslation(string type)
+        {
+            switch (type)
+            {
+                case "AccountingRegister":
+                {
+                    return "РегистрБухгалтерии";
+                }
+                case "AccumulationRegister":
+                {
+                    return "РегистрНакопления";
+                }
+                case "BusinessProcess":
+                {
+                    return "БизнесПроцесс";
+                }
+                case "CalculationRegister":
+                {
+                    return "РегистрРасчета";
+                }
+                case "Catalog":
+                {
+                    return "Справочник";
+                }
+                case "ChartOfAccounts":
+                {
+                    return "ПланСчетов";
+                }
+                case "ChartOfCalculationTypes":
+                {
+                    return "ПланВидовРасчета";
+                }
+                case "ChartOfCharacteristicTypes":
+                {
+                    return "ПланВидовХарактеристик";
+                }
+                case "CommonModules":
+                {
+                    return "ОбщийМодуль";
+                }
+                case "Constant":
+                {
+                    return "Константа";
+                }
+                case "Document":
+                {
+                    return "Документ";
+                }
+                case "ExchangePlan":
+                {
+                    return "ПланОбмена";
+                }
+                case "InformationRegister":
+                {
+                    return "РегистрСведений";
+                }
+                case "Task":
+                {
+                    return "Задача";
+                }
+                case "Sequence":
+                {
+                    return "Последовательность";
+                }
+                case "Report":
+                {
+                    return "Отчет";
+                }
+                default:
+                {
+                    return type;
+                }
+            }
         }
 
         private string[] FindAllModules()
@@ -118,7 +194,11 @@ namespace ChangelogCreator
 
         private void AddText(string text)
         {
-            LinesAdded?.Invoke(null, text);
+          AddText(text, Color.Black);
+        }
+        private void AddText(string text, Color color)
+        {
+            LinesAdded?.Invoke(null, (text, color));
         }
     }
 }

@@ -36,8 +36,8 @@ namespace ChangelogCreator
             this.buttonPathDialog = new System.Windows.Forms.Button();
             this.textBoxToFind = new System.Windows.Forms.TextBox();
             this.buttonFind = new System.Windows.Forms.Button();
-            this.textBoxResult = new System.Windows.Forms.TextBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.textBoxResult = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanelMain.SuspendLayout();
             this.groupBoxPath.SuspendLayout();
             this.flowLayoutPanelPath.SuspendLayout();
@@ -48,16 +48,16 @@ namespace ChangelogCreator
             this.tableLayoutPanelMain.ColumnCount = 1;
             this.tableLayoutPanelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelMain.Controls.Add(this.groupBoxPath, 0, 0);
-            this.tableLayoutPanelMain.Controls.Add(this.textBoxResult, 0, 1);
             this.tableLayoutPanelMain.Controls.Add(this.progressBar, 0, 2);
+            this.tableLayoutPanelMain.Controls.Add(this.textBoxResult, 0, 1);
             this.tableLayoutPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelMain.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanelMain.Name = "tableLayoutPanelMain";
             this.tableLayoutPanelMain.RowCount = 3;
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 26.29696F));
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 73.70304F));
+            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanelMain.Size = new System.Drawing.Size(1185, 600);
+            this.tableLayoutPanelMain.Size = new System.Drawing.Size(1574, 1129);
             this.tableLayoutPanelMain.TabIndex = 0;
             // 
             // groupBoxPath
@@ -66,7 +66,7 @@ namespace ChangelogCreator
             this.groupBoxPath.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxPath.Location = new System.Drawing.Point(3, 3);
             this.groupBoxPath.Name = "groupBoxPath";
-            this.groupBoxPath.Size = new System.Drawing.Size(1179, 141);
+            this.groupBoxPath.Size = new System.Drawing.Size(1568, 144);
             this.groupBoxPath.TabIndex = 0;
             this.groupBoxPath.TabStop = false;
             this.groupBoxPath.Text = "Конфигурация";
@@ -80,7 +80,7 @@ namespace ChangelogCreator
             this.flowLayoutPanelPath.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelPath.Location = new System.Drawing.Point(3, 16);
             this.flowLayoutPanelPath.Name = "flowLayoutPanelPath";
-            this.flowLayoutPanelPath.Size = new System.Drawing.Size(1173, 122);
+            this.flowLayoutPanelPath.Size = new System.Drawing.Size(1562, 125);
             this.flowLayoutPanelPath.TabIndex = 0;
             // 
             // textBoxPath
@@ -122,37 +122,38 @@ namespace ChangelogCreator
             this.buttonFind.UseVisualStyleBackColor = true;
             this.buttonFind.Click += new System.EventHandler(this.buttonFind_Click);
             // 
-            // textBoxResult
-            // 
-            this.textBoxResult.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxResult.Location = new System.Drawing.Point(3, 150);
-            this.textBoxResult.Multiline = true;
-            this.textBoxResult.Name = "textBoxResult";
-            this.textBoxResult.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxResult.Size = new System.Drawing.Size(1179, 406);
-            this.textBoxResult.TabIndex = 1;
-            // 
             // progressBar
             // 
             this.progressBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.progressBar.Location = new System.Drawing.Point(3, 562);
+            this.progressBar.Location = new System.Drawing.Point(3, 1092);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(1179, 35);
+            this.progressBar.Size = new System.Drawing.Size(1568, 34);
             this.progressBar.Step = 1;
             this.progressBar.TabIndex = 2;
+            // 
+            // textBoxResult
+            // 
+            this.textBoxResult.BackColor = System.Drawing.Color.White;
+            this.textBoxResult.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxResult.Location = new System.Drawing.Point(3, 153);
+            this.textBoxResult.Name = "textBoxResult";
+            this.textBoxResult.ReadOnly = true;
+            this.textBoxResult.Size = new System.Drawing.Size(1568, 933);
+            this.textBoxResult.TabIndex = 3;
+            this.textBoxResult.Text = "";
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1185, 600);
+            this.ClientSize = new System.Drawing.Size(1574, 1129);
             this.Controls.Add(this.tableLayoutPanelMain);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Main";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Формирование Changelog";
             this.tableLayoutPanelMain.ResumeLayout(false);
-            this.tableLayoutPanelMain.PerformLayout();
             this.groupBoxPath.ResumeLayout(false);
             this.flowLayoutPanelPath.ResumeLayout(false);
             this.flowLayoutPanelPath.PerformLayout();
@@ -169,8 +170,8 @@ namespace ChangelogCreator
         private System.Windows.Forms.Button buttonPathDialog;
         private System.Windows.Forms.TextBox textBoxToFind;
         private System.Windows.Forms.Button buttonFind;
-        private System.Windows.Forms.TextBox textBoxResult;
         private System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.RichTextBox textBoxResult;
     }
 }
 
